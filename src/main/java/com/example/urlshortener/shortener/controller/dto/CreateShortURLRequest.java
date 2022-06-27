@@ -1,4 +1,4 @@
-package com.example.urlshortener.shortener.dto;
+package com.example.urlshortener.shortener.controller.dto;
 
 import javax.validation.constraints.NotBlank;
 

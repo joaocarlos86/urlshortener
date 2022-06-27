@@ -1,6 +1,6 @@
 package com.example.urlshortener.shortener.controller;
 
-import com.example.urlshortener.shortener.dto.CreateShortURLRequest;
+import com.example.urlshortener.shortener.controller.dto.CreateShortURLRequest;
 import com.example.urlshortener.shortener.model.ShortUrl;
 import com.example.urlshortener.shortener.service.ShortenerService;
 import org.junit.jupiter.api.Test;

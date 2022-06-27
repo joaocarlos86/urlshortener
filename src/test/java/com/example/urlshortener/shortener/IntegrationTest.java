@@ -1,6 +1,6 @@
 package com.example.urlshortener.shortener;
 
-import com.example.urlshortener.shortener.dto.CreateShortURLRequest;
+import com.example.urlshortener.shortener.controller.dto.CreateShortURLRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;

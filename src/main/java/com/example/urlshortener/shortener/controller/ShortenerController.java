@@ -1,7 +1,7 @@
 package com.example.urlshortener.shortener.controller;
 
-import com.example.urlshortener.shortener.dto.CreateShortURLRequest;
-import com.example.urlshortener.shortener.dto.CreateShortURLResponse;
+import com.example.urlshortener.shortener.controller.dto.CreateShortURLRequest;
+import com.example.urlshortener.shortener.controller.dto.CreateShortURLResponse;
 import com.example.urlshortener.shortener.model.ShortUrl;
 import com.example.urlshortener.shortener.service.ShortenerService;
 import org.springframework.http.ResponseEntity;

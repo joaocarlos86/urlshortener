@@ -1,7 +1,5 @@
 package com.example.urlshortener.shortener.service;
 
-import com.example.urlshortener.shortener.dto.CreateShortURLRequest;
-import com.example.urlshortener.shortener.dto.CreateShortURLResponse;
 import com.example.urlshortener.shortener.model.ShortUrl;
 import com.example.urlshortener.shortener.repository.ShortenerRepository;
 import org.springframework.stereotype.Service;
@@ -34,17 +32,12 @@ public class ShortenerService {
   public ShortUrl createShortUrl(final String urlToShorten) {
     Optional<ShortUrl> byLongUrl = repository.findByOriginalUrl(urlToShorten);
 
-    if (byLongUrl.isPresent()) {
-      return byLongUrl.get();
-    } else {
-      final ShortUrl url = new ShortUrl();
-      url.setOriginalUrl(urlToShorten);
-      url.setShortToken(generateWord());
+    return byLongUrl.orElseGet(() -> {
+          final ShortUrl url = new ShortUrl();
+          url.setOriginalUrl(urlToShorten);
+          url.setShortToken(generateWord());
 
-      return repository.save(url);
-    }
-
-
+          return repository.save(url);
+        });
   }
-
 }
