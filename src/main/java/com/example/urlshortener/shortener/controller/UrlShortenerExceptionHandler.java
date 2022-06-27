@@ -10,15 +10,16 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class UrlShortenerExceptionHandler {
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(WebExchangeBindException.class)
-  public Map<String, String> handleValidationExceptions(
-      WebExchangeBindException ex) {
+  public Map<String, String> handleValidationExceptions(WebExchangeBindException ex) {
     Map<String, String> errors = new HashMap<>();
+
     ex.getBindingResult().getAllErrors().forEach((error) -> {
       String fieldName = ((FieldError) error).getField();
       String errorMessage = error.getDefaultMessage();

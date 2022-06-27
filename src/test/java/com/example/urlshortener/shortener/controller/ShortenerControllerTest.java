@@ -9,6 +9,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @WebFluxTest(controllers = ShortenerController.class)
 class ShortenerControllerTest {
 
@@ -43,5 +46,20 @@ class ShortenerControllerTest {
         .is4xxClientError()
         .expectBody()
         .jsonPath("$.url").isEqualTo("must not be blank");
+  }
+
+  @Test
+  void shortenUrl_givenAnythingGoWrong_shouldReturn500() {
+    CreateShortURLRequest request = new CreateShortURLRequest("www.google.com");
+
+    when(service.createShortUrl(any())).thenThrow(new RuntimeException());
+
+    testClient
+        .post()
+        .uri("/shortener")
+        .body(Mono.just(request), CreateShortURLRequest.class)
+        .exchange()
+        .expectStatus()
+        .is5xxServerError();
   }
 }

@@ -19,6 +19,7 @@ public class IntegrationTest {
   @Test
   void canCreateShorUrlFromLongUrl() {
     CreateShortURLRequest createShortUrl = new CreateShortURLRequest("www.google.com");
+
     webClient
         .post()
         .uri("/shortener")
