@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShortenerController {
 
   @PostMapping
-  public CreateShortURLResponse shortenUrl(@RequestBody CreateShortURLRequest request) {
+  public ResponseEntity<CreateShortURLResponse> shortenUrl(@RequestBody CreateShortURLRequest request) {
     CreateShortURLResponse createShortURLResponse = new CreateShortURLResponse(request.getUrl());
     createShortURLResponse.setShortUrl("OK123");
-    return createShortURLResponse;
+    return ResponseEntity.ok(createShortURLResponse);
   }
 
 }
