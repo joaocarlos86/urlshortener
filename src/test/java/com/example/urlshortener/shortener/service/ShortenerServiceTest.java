@@ -19,12 +19,8 @@ class ShortenerServiceTest {
   private ShortenerService service;
   @MockBean
   private ShortenerRepository repository;
-
-  @Test
-  void generateWord_shouldGenerateWordWith5Characters() {
-    String word = service.generateWord();
-    assertThat(word).hasSize(5);
-  }
+  @MockBean
+  private RandomWordService randomWordService;
 
   @Test
   void createShortUrl_shouldCreateAShortUrlForLongUrl() {
@@ -52,4 +48,6 @@ class ShortenerServiceTest {
     assertThat(response.getShortToken()).isEqualTo("abc13");
     assertThat(response.getOriginalUrl()).isEqualTo("www.google.com");
   }
+
+
 }

@@ -5,28 +5,16 @@ import com.example.urlshortener.shortener.repository.ShortenerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class ShortenerService {
 
-  private static final String SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  private static final int DEFAULT_NUMBER_OF_CHARS = 5;
   private ShortenerRepository repository;
+  private RandomWordService randomWordService;
 
-  public ShortenerService(ShortenerRepository repository) {
+  public ShortenerService(ShortenerRepository repository, RandomWordService randomWordService) {
     this.repository = repository;
-  }
-
-  public String generateWord() {
-    ThreadLocalRandom current = ThreadLocalRandom.current();
-
-    return IntStream.rangeClosed(1, DEFAULT_NUMBER_OF_CHARS)
-        .map(i -> current.nextInt(SYMBOLS.length()))
-        .mapToObj(i -> String.valueOf(SYMBOLS.charAt(i)))
-        .collect(Collectors.joining());
+    this.randomWordService = randomWordService;
   }
 
   public ShortUrl createShortUrl(final String urlToShorten) {
@@ -35,7 +23,7 @@ public class ShortenerService {
     return byLongUrl.orElseGet(() -> {
           final ShortUrl url = new ShortUrl();
           url.setOriginalUrl(urlToShorten);
-          url.setShortToken(generateWord());
+          url.setShortToken(randomWordService.generateUniqueWord());
 
           return repository.save(url);
         });

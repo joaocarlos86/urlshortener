@@ -10,5 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ShortenerRepository extends CrudRepository<ShortUrl, Long> {
 
-  Optional<ShortUrl> findByOriginalUrl(@Param("originalUrl") String originalUrl);
+  Optional<ShortUrl> findByOriginalUrl(String originalUrl);
+
+  Optional<ShortUrl> findByShortToken(String shortToken);
 }
