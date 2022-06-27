@@ -6,6 +6,7 @@ import com.example.urlshortener.shortener.model.ShortUrl;
 import com.example.urlshortener.shortener.repository.ShortenerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -30,16 +31,20 @@ public class ShortenerService {
         .collect(Collectors.joining());
   }
 
-  public CreateShortURLResponse createShortUrl(CreateShortURLRequest request) {
-    ShortUrl url = new ShortUrl();
-    url.setOriginalUrl(request.getUrl());
-    url.setShortToken(generateWord());
+  public ShortUrl createShortUrl(final String urlToShorten) {
+    Optional<ShortUrl> byLongUrl = repository.findByOriginalUrl(urlToShorten);
 
-    final ShortUrl savedShortUrl = repository.save(url);
-    CreateShortURLResponse createShortURLResponse = new CreateShortURLResponse(savedShortUrl.getOriginalUrl());
-    createShortURLResponse.setShortUrl(savedShortUrl.getShortToken());
+    if (byLongUrl.isPresent()) {
+      return byLongUrl.get();
+    } else {
+      final ShortUrl url = new ShortUrl();
+      url.setOriginalUrl(urlToShorten);
+      url.setShortToken(generateWord());
 
-    return createShortURLResponse;
+      return repository.save(url);
+    }
+
+
   }
 
 }

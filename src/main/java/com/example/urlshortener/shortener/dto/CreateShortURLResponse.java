@@ -11,6 +11,11 @@ public class CreateShortURLResponse {
     this.originalUrl = originalUrl;
   }
 
+  public CreateShortURLResponse(String originalUrl, String shortToken) {
+    this.originalUrl = originalUrl;
+    this.shortUrl = shortToken;
+  }
+
   public String getOriginalUrl() {
     return originalUrl;
   }

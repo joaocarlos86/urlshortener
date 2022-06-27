@@ -1,6 +1,7 @@
 package com.example.urlshortener.shortener.controller;
 
 import com.example.urlshortener.shortener.dto.CreateShortURLRequest;
+import com.example.urlshortener.shortener.model.ShortUrl;
 import com.example.urlshortener.shortener.service.ShortenerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ class ShortenerControllerTest {
   @Test
   void shortenUrl_givenValidRequest_shouldReturn200() {
     CreateShortURLRequest request = new CreateShortURLRequest("http://www.google.com");
+
+    ShortUrl shortUrl = new ShortUrl();
+    when(service.createShortUrl(any())).thenReturn(shortUrl);
 
     testClient
         .post()
