@@ -23,7 +23,7 @@ public class ShortenerService {
     return byLongUrl.orElseGet(() -> {
           final ShortUrl url = new ShortUrl();
           url.setOriginalUrl(urlToShorten);
-          url.setShortToken(randomWordService.generateUniqueWord());
+          url.setShortToken(randomWordService.generateWord());
 
           return repository.save(url);
         });

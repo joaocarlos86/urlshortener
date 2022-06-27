@@ -49,5 +49,4 @@ class ShortenerServiceTest {
     assertThat(response.getOriginalUrl()).isEqualTo("www.google.com");
   }
 
-
 }

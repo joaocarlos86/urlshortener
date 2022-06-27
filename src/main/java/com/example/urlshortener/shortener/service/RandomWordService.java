@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 @Service
 public class RandomWordService {
+
   private static final String SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   private static final int DEFAULT_NUMBER_OF_CHARS = 5;
 
@@ -20,7 +21,4 @@ public class RandomWordService {
         .collect(Collectors.joining());
   }
 
-  public String generateUniqueWord() {
-    return generateWord();
-  }
 }

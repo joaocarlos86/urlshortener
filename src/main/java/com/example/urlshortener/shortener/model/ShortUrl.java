@@ -1,9 +1,6 @@
 package com.example.urlshortener.shortener.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -11,7 +8,9 @@ public class ShortUrl {
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Long id;
+  @Column(unique = true)
   private String originalUrl;
+  @Column(unique = true)
   private String shortToken;
 
   public Long getId() {
