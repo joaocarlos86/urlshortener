@@ -1,6 +1,9 @@
 package com.example.urlshortener.shortener.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class CreateShortURLRequest {
+  @NotBlank
   private String url;
 
   public CreateShortURLRequest() {
