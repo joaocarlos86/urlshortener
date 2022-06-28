@@ -2,11 +2,16 @@ package com.example.urlshortener.shortener.service;
 
 import com.example.urlshortener.shortener.model.ShortUrl;
 import com.example.urlshortener.shortener.repository.ShortenerRepository;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@EnableRetry
 public class ShortenerService {
 
   private ShortenerRepository repository;
@@ -17,6 +22,7 @@ public class ShortenerService {
     this.randomWordService = randomWordService;
   }
 
+  @Retryable(value = DataIntegrityViolationException.class, maxAttempts = 5, backoff = @Backoff(delay = 10))
   public ShortUrl createShortUrl(final String urlToShorten) {
     Optional<ShortUrl> byLongUrl = repository.findByOriginalUrl(urlToShorten);
 
