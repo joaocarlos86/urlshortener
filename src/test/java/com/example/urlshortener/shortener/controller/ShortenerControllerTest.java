@@ -10,6 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -53,7 +55,7 @@ class ShortenerControllerTest {
   }
 
   @Test
-  void shortenUrl_givenAnythingGoWrong_shouldReturn500() {
+  void shortenUrl_givenAnythingGoesWrong_shouldReturn500() {
     CreateShortURLRequest request = new CreateShortURLRequest("www.google.com");
 
     when(service.createShortUrl(any())).thenThrow(new RuntimeException());
@@ -65,5 +67,40 @@ class ShortenerControllerTest {
         .exchange()
         .expectStatus()
         .is5xxServerError();
+  }
+
+  @Test
+  void resolveShortUrl_givenShortUrlExists_shouldReturn200() {
+    Optional<ShortUrl> shortUrl = Optional.of(new ShortUrl());
+    when(service.resolveShortUrl("abc12")).thenReturn(shortUrl);
+
+    testClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("/shortener/{token}").build("abc12"))
+        .exchange()
+        .expectStatus().isOk();
+  }
+
+  @Test
+  void resolveShortUrl_givenShortUrlDoesntExists_shouldReturn404() {
+    Optional<ShortUrl> shortUrl = Optional.empty();
+    when(service.resolveShortUrl("abc12")).thenReturn(shortUrl);
+
+    testClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("/shortener/{token}").build("abc12"))
+        .exchange()
+        .expectStatus().isNotFound();
+  }
+
+  @Test
+  void resolveShortUrl_ifAnythingGoesWrong_shouldReturn500() {
+    when(service.resolveShortUrl("abc12")).thenThrow(new RuntimeException());
+
+    testClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("/shortener/{token}").build("abc12"))
+        .exchange()
+        .expectStatus().is5xxServerError();
   }
 }
