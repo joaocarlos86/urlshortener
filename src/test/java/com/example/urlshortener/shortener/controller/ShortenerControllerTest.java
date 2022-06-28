@@ -51,7 +51,7 @@ class ShortenerControllerTest {
         .expectStatus()
         .is4xxClientError()
         .expectBody()
-        .jsonPath("$.url").isEqualTo("must not be blank");
+        .jsonPath("$.url").isEqualTo("Invalid URL provided");
   }
 
   @Test

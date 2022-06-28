@@ -11,9 +11,9 @@ public class CreateShortURLResponse {
     this.originalUrl = originalUrl;
   }
 
-  public CreateShortURLResponse(String originalUrl, String shortToken) {
+  public CreateShortURLResponse(String originalUrl, String token) {
     this.originalUrl = originalUrl;
-    this.shortUrl = shortToken;
+    this.shortUrl = token;
   }
 
   public String getOriginalUrl() {

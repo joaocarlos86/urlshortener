@@ -29,13 +29,13 @@ public class ShortenerService {
     return byLongUrl.orElseGet(() -> {
           final ShortUrl url = new ShortUrl();
           url.setOriginalUrl(urlToShorten);
-          url.setShortToken(randomWordService.generateWord());
+          url.setToken(randomWordService.generateWord());
 
           return repository.save(url);
         });
   }
 
   public Optional<ShortUrl> resolveShortUrl(String token) {
-    return repository.findByShortToken(token);
+    return repository.findByToken(token);
   }
 }

@@ -1,7 +1,6 @@
 package com.example.urlshortener.shortener.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class ShortUrl {
@@ -11,7 +10,7 @@ public class ShortUrl {
   @Column(unique = true)
   private String originalUrl;
   @Column(unique = true)
-  private String shortToken;
+  private String token;
 
   public Long getId() {
     return id;
@@ -29,11 +28,11 @@ public class ShortUrl {
     this.originalUrl = originalUrl;
   }
 
-  public String getShortToken() {
-    return shortToken;
+  public String getToken() {
+    return token;
   }
 
-  public void setShortToken(String shortToken) {
-    this.shortToken = shortToken;
+  public void setToken(String shortToken) {
+    this.token = shortToken;
   }
 }

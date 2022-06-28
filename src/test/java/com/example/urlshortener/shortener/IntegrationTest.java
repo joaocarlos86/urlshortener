@@ -44,11 +44,11 @@ public class IntegrationTest {
 
     webClient
         .get()
-        .uri(uriBuilder -> uriBuilder.path("/shortener/{token}").build(shortUrl.getShortToken()))
+        .uri(uriBuilder -> uriBuilder.path("/shortener/{token}").build(shortUrl.getToken()))
         .exchange()
         .expectStatus().isOk()
         .expectBody()
         .jsonPath("$.originalUrl").isEqualTo("www.google.com")
-        .jsonPath("$.shortUrl").isEqualTo(shortUrl.getShortToken());
+        .jsonPath("$.shortUrl").isEqualTo(shortUrl.getToken());
   }
 }

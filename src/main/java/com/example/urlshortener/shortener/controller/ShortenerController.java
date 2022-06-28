@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("shortener")
@@ -24,14 +23,14 @@ public class ShortenerController {
   @PostMapping
   public ResponseEntity<CreateShortURLResponse> shortenUrl(@Valid @RequestBody CreateShortURLRequest request) {
     ShortUrl shortUrl = service.createShortUrl(request.getUrl());
-    CreateShortURLResponse createShortURLResponse = new CreateShortURLResponse(shortUrl.getOriginalUrl(), shortUrl.getShortToken());
+    CreateShortURLResponse createShortURLResponse = new CreateShortURLResponse(shortUrl.getOriginalUrl(), shortUrl.getToken());
     return ResponseEntity.ok(createShortURLResponse);
   }
 
   @GetMapping("/{token}")
   public ResponseEntity<ResolveShortUrlResponse> resolveShortUrl(@PathVariable("token") final String token) {
     return service.resolveShortUrl(token)
-        .map(shortUrl -> ResponseEntity.ok(new ResolveShortUrlResponse(shortUrl.getOriginalUrl(), shortUrl.getShortToken())))
+        .map(shortUrl -> ResponseEntity.ok(new ResolveShortUrlResponse(shortUrl.getOriginalUrl(), shortUrl.getToken())))
         .orElse(ResponseEntity.notFound().build());
   }
 

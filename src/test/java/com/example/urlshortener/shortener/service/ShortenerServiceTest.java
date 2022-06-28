@@ -29,12 +29,12 @@ class ShortenerServiceTest {
   void createShortUrl_shouldCreateAShortUrlForLongUrl() {
     ShortUrl entity = new ShortUrl();
     entity.setOriginalUrl("www.google.com");
-    entity.setShortToken("abc12");
+    entity.setToken("abc12");
     when(repository.save(any())).thenReturn(entity);
 
     ShortUrl shortUrl = service.createShortUrl("www.google.com");
-    assertThat(shortUrl.getShortToken()).isNotEmpty();
-    assertThat(shortUrl.getShortToken()).hasSize(5);
+    assertThat(shortUrl.getToken()).isNotEmpty();
+    assertThat(shortUrl.getToken()).hasSize(5);
     assertThat(shortUrl.getOriginalUrl()).isEqualTo("www.google.com");
   }
 
@@ -42,12 +42,12 @@ class ShortenerServiceTest {
   void createShortUrl_ifExistsAShortUrlForLongUrlProvided_shouldReuseShortUrl() {
     ShortUrl shortUrl = new ShortUrl();
     shortUrl.setOriginalUrl("www.google.com");
-    shortUrl.setShortToken("abc13");
+    shortUrl.setToken("abc13");
     when(repository.findByOriginalUrl("www.google.com")).thenReturn(Optional.of(shortUrl));
 
     ShortUrl response = service.createShortUrl("www.google.com");
-    assertThat(response.getShortToken()).isNotEmpty();
-    assertThat(response.getShortToken()).isEqualTo("abc13");
+    assertThat(response.getToken()).isNotEmpty();
+    assertThat(response.getToken()).isEqualTo("abc13");
     assertThat(response.getOriginalUrl()).isEqualTo("www.google.com");
   }
 
@@ -56,7 +56,7 @@ class ShortenerServiceTest {
     when(randomWordService.generateWord()).thenReturn("abc12");
 
     AtomicInteger counter = new AtomicInteger(0);
-    when(repository.save(argThat(t -> t.getShortToken().equals("abc12")))).thenAnswer(methodInvocation -> {
+    when(repository.save(argThat(t -> t.getToken().equals("abc12")))).thenAnswer(methodInvocation -> {
       if (counter.getAndIncrement() < 1) {
         throw new DataIntegrityViolationException("");
       }
@@ -66,14 +66,14 @@ class ShortenerServiceTest {
 
     ShortUrl response = service.createShortUrl("www.google.com");
     assertThat(response).isNotNull();
-    assertThat(response.getShortToken()).isEqualTo("abc12");
+    assertThat(response.getToken()).isEqualTo("abc12");
     assertThat(response.getOriginalUrl()).isEqualTo("www.google.com");
     assertThat(counter.get()).isEqualTo(2);
   }
 
   @Test
   void resolveShortUrl_givenTokenExists_shouldReturnShortUrl() {
-    when(repository.findByShortToken("ab123")).thenReturn(Optional.of(new ShortUrl()));
+    when(repository.findByToken("ab123")).thenReturn(Optional.of(new ShortUrl()));
 
     Optional<ShortUrl> shortUrl = service.resolveShortUrl("ab123");
     assertThat(shortUrl.isPresent()).isTrue();
@@ -81,7 +81,7 @@ class ShortenerServiceTest {
 
   @Test
   void resolveShortUrl_givenTokenDoesntExist_shouldReturnEmpty() {
-    when(repository.findByShortToken("ab123")).thenReturn(Optional.empty());
+    when(repository.findByToken("ab123")).thenReturn(Optional.empty());
 
     Optional<ShortUrl> shortUrl = service.resolveShortUrl("ab123");
     assertThat(shortUrl.isPresent()).isFalse();

@@ -8,9 +8,9 @@ public class ResolveShortUrlResponse {
 
   }
 
-  public ResolveShortUrlResponse(String originalUrl, String shortUrl) {
+  public ResolveShortUrlResponse(String originalUrl, String token) {
     this.originalUrl = originalUrl;
-    this.shortUrl = shortUrl;
+    this.shortUrl = token;
   }
 
   public String getOriginalUrl() {
