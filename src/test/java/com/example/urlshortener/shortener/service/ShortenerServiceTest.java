@@ -71,4 +71,20 @@ class ShortenerServiceTest {
     assertThat(counter.get()).isEqualTo(2);
   }
 
+  @Test
+  void resolveShortUrl_givenTokenExists_shouldReturnShortUrl() {
+    when(repository.findByShortToken("ab123")).thenReturn(Optional.of(new ShortUrl()));
+
+    Optional<ShortUrl> shortUrl = service.resolveShortUrl("ab123");
+    assertThat(shortUrl.isPresent()).isTrue();
+  }
+
+  @Test
+  void resolveShortUrl_givenTokenDoesntExist_shouldReturnEmpty() {
+    when(repository.findByShortToken("ab123")).thenReturn(Optional.empty());
+
+    Optional<ShortUrl> shortUrl = service.resolveShortUrl("ab123");
+    assertThat(shortUrl.isPresent()).isFalse();
+  }
+
 }
