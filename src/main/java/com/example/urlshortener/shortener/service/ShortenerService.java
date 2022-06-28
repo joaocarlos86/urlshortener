@@ -34,4 +34,8 @@ public class ShortenerService {
           return repository.save(url);
         });
   }
+
+  public Optional<ShortUrl> resolveShortUrl(String token) {
+    return repository.findByShortToken(token);
+  }
 }

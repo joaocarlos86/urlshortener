@@ -1,6 +1,8 @@
 package com.example.urlshortener.shortener;
 
 import com.example.urlshortener.shortener.controller.dto.CreateShortURLRequest;
+import com.example.urlshortener.shortener.model.ShortUrl;
+import com.example.urlshortener.shortener.service.ShortenerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -15,6 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class IntegrationTest {
   @Autowired
   private WebTestClient webClient;
+  @Autowired
+  private ShortenerService service;
 
   @Test
   void canCreateShorUrlFromLongUrl() {
@@ -32,5 +36,19 @@ public class IntegrationTest {
         .jsonPath("$.shortUrl").value(o -> {
           assertThat(o.toString()).hasSize(5);
         });
+  }
+
+  @Test
+  void canResolveLongUrlFromShortUrl() {
+    ShortUrl shortUrl = service.createShortUrl("www.google.com");
+
+    webClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("/shortener/{token}").build(shortUrl.getShortToken()))
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody()
+        .jsonPath("$.originalUrl").isEqualTo("www.google.com")
+        .jsonPath("$.shortUrl").isEqualTo(shortUrl.getShortToken());
   }
 }
