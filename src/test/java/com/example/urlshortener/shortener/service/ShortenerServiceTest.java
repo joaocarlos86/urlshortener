@@ -76,7 +76,7 @@ class ShortenerServiceTest {
     when(repository.findByToken("ab123")).thenReturn(Optional.of(new ShortUrl()));
 
     Optional<ShortUrl> shortUrl = service.resolveShortUrl("ab123");
-    assertThat(shortUrl.isPresent()).isTrue();
+    assertThat(shortUrl).isPresent();
   }
 
   @Test
@@ -84,7 +84,7 @@ class ShortenerServiceTest {
     when(repository.findByToken("ab123")).thenReturn(Optional.empty());
 
     Optional<ShortUrl> shortUrl = service.resolveShortUrl("ab123");
-    assertThat(shortUrl.isPresent()).isFalse();
+    assertThat(shortUrl).isNotPresent();
   }
 
 }

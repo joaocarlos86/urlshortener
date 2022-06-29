@@ -1,14 +1,14 @@
 package com.example.urlshortener.shortener.controller.dto;
 
-public class ResolveShortUrlResponse {
+public class ResolveShortURLResponse {
   private String originalUrl;
   private String shortUrl;
 
-  public ResolveShortUrlResponse() {
+  public ResolveShortURLResponse() {
 
   }
 
-  public ResolveShortUrlResponse(String originalUrl, String token) {
+  public ResolveShortURLResponse(String originalUrl, String token) {
     this.originalUrl = originalUrl;
     this.shortUrl = token;
   }

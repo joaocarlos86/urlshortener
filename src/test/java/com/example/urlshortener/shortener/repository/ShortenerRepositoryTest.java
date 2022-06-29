@@ -25,8 +25,9 @@ class ShortenerRepositoryTest {
     repository.save(url1);
 
     Optional<ShortUrl> url = repository.findByToken("ok123");
-    assertThat(url).isNotNull();
-    assertThat(url.isPresent()).isTrue();
+    assertThat(url)
+        .isNotNull()
+        .isPresent();
     assertThat(url.get().getId()).isNotNull();
     assertThat(url.get().getToken()).isEqualTo("ok123");
     assertThat(url.get().getOriginalUrl()).isEqualTo("www.google.com");
@@ -35,8 +36,9 @@ class ShortenerRepositoryTest {
   @Test
   void findByToken_givenShortTokenDoesNotExists_shouldReturnEmptyOptional() {
     Optional<ShortUrl> url = repository.findByToken("ok123");
-    assertThat(url).isNotNull();
-    assertThat(url.isPresent()).isFalse();
+    assertThat(url)
+        .isNotNull()
+        .isNotPresent();
   }
 
   @Test
@@ -47,8 +49,9 @@ class ShortenerRepositoryTest {
     repository.save(url1);
 
     Optional<ShortUrl> url = repository.findByOriginalUrl("www.google.com");
-    assertThat(url).isNotNull();
-    assertThat(url.isPresent()).isTrue();
+    assertThat(url)
+        .isNotNull()
+        .isPresent();
     assertThat(url.get().getId()).isNotNull();
     assertThat(url.get().getToken()).isEqualTo("ok123");
     assertThat(url.get().getOriginalUrl()).isEqualTo("www.google.com");
@@ -57,8 +60,9 @@ class ShortenerRepositoryTest {
   @Test
   void findByOriginalUrl_givenOriginalUrlDoesNotExists_shouldReturnEmptyOptional() {
     Optional<ShortUrl> url = repository.findByOriginalUrl("www.google.com");
-    assertThat(url).isNotNull();
-    assertThat(url.isPresent()).isFalse();
+    assertThat(url)
+        .isNotNull()
+        .isNotPresent();
   }
 
   @Test
