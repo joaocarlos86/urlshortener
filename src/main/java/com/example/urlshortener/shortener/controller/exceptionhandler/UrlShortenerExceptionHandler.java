@@ -1,4 +1,4 @@
-package com.example.urlshortener.shortener.controller;
+package com.example.urlshortener.shortener.controller.exceptionhandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
