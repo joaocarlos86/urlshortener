@@ -2,15 +2,14 @@
 
 ## About
 
-This is a simple project that can shorten long urls into a minified version of the url so that it is easier to share.
-
+This simple project can shorten long URLs into a minified version of the URL so that it is easier to share.
 All shortened URLs are stored in an in-memory database (H2 Database).
 
 ### How it works
 
 A user submits a post request containing the URL to be shortened, if the request is valid, the application will generate 
-a hash (with 5 characters) for that URL and save in the database, then it will return the hash that can be used to resolve
-the token into the long URL again.
+a hash (with 5 characters) for that URL and save it in the database, then it will return the hash that can be used to 
+resolve the token into the long URL again.
 
 #### How is the hash generated?
 
@@ -29,8 +28,9 @@ For this application, t = 62 and p = 5, so:
 62 ^ 5 = 916132832 
 ```
 
-In case of hash collision (i.e. a randomly generated hash is already in use), the application will try to generate a new 
-hash up to 5 times. If the application doesn't success it will return a 500 HTTP error (See [ShortenerService](src/main/java/com/example/urlshortener/shortener/service/ShortenerService.java) ).
+In case of a hash collision (i.e. a randomly generated hash is already in use), the application will try to generate a 
+new hash up to 5 times. If the application doesn't succeed it will return a 500 HTTP error 
+(See [ShortenerService](src/main/java/com/example/urlshortener/shortener/service/ShortenerService.java)).
 
 ### Built with
 
@@ -67,10 +67,10 @@ The API can be browsed via swagger, it is available at `http://localhost:8080/sw
 
 The application exposes two endpoints:
 
-| Operation                                           | HTTP Method | Path               | Parameters                                                                                                          | Response                                                                                                                |
-|-----------------------------------------------------|-------------|--------------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| Create a new short URL                              | POST        | /shortener         | [CreateShortURLRequest](src/main/java/com/example/urlshortener/shortener/controller/dto/CreateShortURLRequest.java) | [CreateShortURLResponse](src/main/java/com/example/urlshortener/shortener/controller/dto/CreateShortURLResponse.java)   |
-| Resolve an existing short URL into the long version | GET         | /shortener/{token} | String                                                                                                              | [ResolveShortURLResponse](src/main/java/com/example/urlshortener/shortener/controller/dto/ResolveShortURLResponse.java) |
+| Controller                                                                                                  | Operation                                           | HTTP Method | Path               | Parameters                                                                                                          | Response                                                                                                                |
+|-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|-------------|--------------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| [ShortenerController](src/main/java/com/example/urlshortener/shortener/controller/ShortenerController.java) | Create a new short URL                              | POST        | /shortener         | [CreateShortURLRequest](src/main/java/com/example/urlshortener/shortener/controller/dto/CreateShortURLRequest.java) | [CreateShortURLResponse](src/main/java/com/example/urlshortener/shortener/controller/dto/CreateShortURLResponse.java)   |
+| [ShortenerController](src/main/java/com/example/urlshortener/shortener/controller/ShortenerController.java) | Resolve an existing short URL into the long version | GET         | /shortener/{token} | String                                                                                                              | [ResolveShortURLResponse](src/main/java/com/example/urlshortener/shortener/controller/dto/ResolveShortURLResponse.java) |
 
 ### Examples
 
