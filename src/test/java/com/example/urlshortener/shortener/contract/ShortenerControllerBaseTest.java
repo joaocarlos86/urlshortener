@@ -25,13 +25,14 @@ public class ShortenerControllerBaseTest {
 
   @BeforeEach
   public void setup() {
-    ShortUrl url = new ShortUrl();
+    final ShortUrl url = new ShortUrl();
     url.setOriginalUrl("www.google.com");
     url.setToken("123");
     url.setId(1L);
 
-    Optional<ShortUrl> shortUrl = Optional.of(url);
-    when(service.resolveShortUrl("123")).thenReturn(shortUrl);
+    when(service.resolveShortUrl("123")).thenReturn(Optional.of(url));
+    when(service.resolveShortUrl("1233")).thenReturn(Optional.empty());
+    when(service.resolveShortUrl("1")).thenThrow(new RuntimeException());
 
     RestAssuredWebTestClient.standaloneSetup(controller);
   }

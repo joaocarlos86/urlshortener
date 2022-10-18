@@ -111,3 +111,30 @@ Response:
     "shortUrl": "5myjt"
 }
 ```
+
+## Contracts
+
+This application uses contract testing ([Spring Cloud Contract](https://spring.io/projects/spring-cloud-contract)). The
+application build cycle will make sure the API is in conformity with the contracts defined so that no unexpected changes
+are introduced and clients are not disrupted.
+
+Also, once successfully building the application, a stub will be generated, allowing for decoupled integration testing in 
+consumers of this service.
+
+To run the stubs using docker, please use the following:
+
+```bash
+
+SC_CONTRACT_DOCKER_VERSION="3.1.4"
+STUBRUNNER_PORT="8083"
+STUBRUNNER_IDS="com.example:urlshortener:+:stubs:9876"
+
+docker run --rm  \
+  -e "STUBRUNNER_IDS=${STUBRUNNER_IDS}"  \
+  -e "STUBRUNNER_STUBS_MODE=LOCAL" \
+  -p "${STUBRUNNER_PORT}:${STUBRUNNER_PORT}"  \
+  -p "9876:9876"  \
+  -v "${HOME}/.m2/:/home/scc/.m2:rw" \
+  springcloud/spring-cloud-contract-stub-runner:"${SC_CONTRACT_DOCKER_VERSION}"
+
+```
